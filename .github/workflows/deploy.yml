@@ -18,7 +18,7 @@ jobs:
           echo "Hello M" > hello.txt
           cat hello.txt
       - name: GitHub Actions 환경변수 출력
-        run:
+        run: |
           echo $GITHUB_SHA
           echo $GITHUB_REPOSITORY
           
