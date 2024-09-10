@@ -21,4 +21,7 @@ jobs:
         run: |
           echo $GITHUB_SHA
           echo $GITHUB_REPOSITORY
+      - name: secret 값 테스트
+        run:
+          echo ${{secrets.MY_NAME}}
           
