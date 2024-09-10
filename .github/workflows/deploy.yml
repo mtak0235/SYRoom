@@ -1,27 +1,24 @@
-name: GitHub Actions 실행시켜보기
+name: deploy to ec2
 
 on:
   push:
     branches:
       - main
 jobs:
-  My-Deploy-Job:
+  SYR-Backend-Deploy:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Hello World 찍기
-        run: echo "Hello Mtak"
-      - name: 폴더 만들어보기
-        run: |
-          mkdir test
-          cd test
-          echo "Hello M" > hello.txt
-          cat hello.txt
-      - name: GitHub Actions 환경변수 출력
-        run: |
-          echo $GITHUB_SHA
-          echo $GITHUB_REPOSITORY
-      - name: secret 값 테스트
-        run:
-          echo ${{secrets.MY_NAME}}
-          
+      - name: SSH 로 EC2에 접속
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script_stop: true
+          script: |
+            cd /home/ubuntu/syr/backend
+            git pull origin main
+            ./gradlew clean build
+            sudo fuser -k -n tcp 8080 || true
+            nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
