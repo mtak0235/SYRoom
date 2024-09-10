@@ -11,3 +11,10 @@ jobs:
     steps:
       - name: Hello World 찍기
         run: echo "Hello Mtak"
+      - name: 폴더 만들어보기
+        run: |
+          mkdir test
+          cd test
+          echo "Hello M" > hello.txt
+          cat hello.txt
+          
