@@ -8,6 +8,7 @@ class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
+		throw new RuntimeException("omg");
 	}
 
 }
